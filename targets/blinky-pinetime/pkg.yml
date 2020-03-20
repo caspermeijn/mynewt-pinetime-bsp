@@ -1,0 +1,6 @@
+pkg.name: "targets/blinky-pinetime"
+pkg.type: target
+pkg.description: Example blinky target for PineTime smartwatch
+pkg.author: "Casper Meijn <casper@meijn.net>"
+pkg.homepage: "https://github.com/caspermeijn/mynewt-pinetime-bsp"
+
