@@ -9,6 +9,7 @@
 #include "os/os.h"
 #include "bsp/bsp.h"
 #include "mcu/nrf52_hal.h"
+#include "mcu/nrf52_periph.h"
 
 /** What memory to include in coredump. */
 static const struct hal_bsp_mem_dump dump_cfg[] = {
@@ -68,15 +69,7 @@ hal_bsp_init(void)
     /* Make sure system clocks have started. */
     hal_system_clock_start();
 
-#if MYNEWT_VAL(TIMER_0)
-    rc = hal_timer_init(0, NULL);
-    assert(rc == 0);
-#endif
+    /* Create all available nRF52840 peripherals */
+    nrf52_periph_create();
 
-#if (MYNEWT_VAL(OS_CPUTIME_TIMER_NUM) >= 0)
-    rc = os_cputime_init(MYNEWT_VAL(OS_CPUTIME_FREQ));
-    assert(rc == 0);
-#endif
-
-    /* Initialize additional BSP peripherals here. */
 }

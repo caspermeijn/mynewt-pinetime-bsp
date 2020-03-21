@@ -48,3 +48,6 @@ syscfg.vals:
 
     # Configure NFC pins as GPIO P0.09, P0.10
     NFC_PINS_AS_GPIO: 1
+
+    # ADC needed for battery voltage
+    ADC_0: 1

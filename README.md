@@ -26,6 +26,11 @@ This is a board support package for the Pine64 PineTime smartwatch.
 
 Currently the status is: incomplete.
 
+Available packages:
+
+- hw/bsp/pinetime
+- hw/drivers/battery_pinetime
+
 Once completed my intention is to merge into apache-mynewt-core.
 
 ## Usage
@@ -33,4 +38,3 @@ Once completed my intention is to merge into apache-mynewt-core.
 This repository contains some targets to test the board support. These can be build and run on the PineTime device.
 
 It should also be possible to include this repo into other projects and just use the bsp part.
-

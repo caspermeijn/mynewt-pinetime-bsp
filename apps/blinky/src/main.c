@@ -24,6 +24,7 @@
 #include "os/os.h"
 #include "bsp/bsp.h"
 #include "hal/hal_gpio.h"
+#include "battery_pinetime/battery_pinetime.h"
 #include "console/console.h"
 #ifdef ARCH_sim
 #include "mcu/mcu_sim.h"
@@ -56,6 +57,8 @@ main(int argc, char **argv)
     g_led_pin = LCD_BACKLIGHT_HIGH_PIN;
     hal_gpio_init_out(g_led_pin, 1);
 
+    battery_pinetime_init();
+
     while (1) {
         ++g_task1_loops;
 
@@ -64,8 +67,11 @@ main(int argc, char **argv)
 
         /* Toggle the LED */
         hal_gpio_toggle(g_led_pin);
+        
+        /* Display battery voltage */
+        int voltage = battery_pinetime_get_voltage();
+        console_printf("Battery voltage = %i\n", voltage);
 
-        console_printf("Toggling backlight\n");
         console_flush();
     }
     assert(0);

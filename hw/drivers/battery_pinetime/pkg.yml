@@ -6,7 +6,7 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-# 
+#
 #  http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing,
@@ -17,17 +17,15 @@
 # under the License.
 #
 
-pkg.name: apps/blinky
-pkg.type: app
-pkg.description: Basic example application which blinks an LED.
-pkg.author: "Apache Mynewt <dev@mynewt.apache.org>"
-pkg.homepage: "http://mynewt.apache.org/"
+pkg.name: "hw/drivers/battery_pinetime" 
+pkg.description: "Driver for PineTime battery"
+pkg.author: "Casper Meijn <casper@meijn.net>"
+pkg.homepage: "https://github.com/caspermeijn/mynewt-pinetime-bsp"
 pkg.keywords:
+    - battery
+    - PineTime
 
 pkg.deps:
     - "@apache-mynewt-core/kernel/os"
-    - "@apache-mynewt-core/hw/hal"
-    - "@apache-mynewt-core/sys/console/stub"
-    - "@apache-mynewt-core/sys/log/stub"
-    - "libs/semihosting_console"
-    - "hw/drivers/battery_pinetime"
+    - '@apache-mynewt-core/hw/hal'
+    - "@apache-mynewt-core/hw/drivers/adc"
