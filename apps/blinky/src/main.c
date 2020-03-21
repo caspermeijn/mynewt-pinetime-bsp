@@ -24,6 +24,7 @@
 #include "os/os.h"
 #include "bsp/bsp.h"
 #include "hal/hal_gpio.h"
+#include "console/console.h"
 #ifdef ARCH_sim
 #include "mcu/mcu_sim.h"
 #endif
@@ -63,6 +64,9 @@ main(int argc, char **argv)
 
         /* Toggle the LED */
         hal_gpio_toggle(g_led_pin);
+
+        console_printf("Toggling backlight\n");
+        console_flush();
     }
     assert(0);
 
