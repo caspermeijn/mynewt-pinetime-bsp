@@ -6,7 +6,7 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-#
+# 
 #  http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing,
@@ -17,24 +17,19 @@
 # under the License.
 #
 
-pkg.name: "hw/bsp/pinetime"
-pkg.type: bsp
-pkg.description: "BSP definition for the Pine64 PineTime smartwatch"
+pkg.name: apps/driver-demo
+pkg.type: app
+pkg.description: Basic demo application which tries to use most of the PineTime drivers.
 pkg.author: "Casper Meijn <casper@meijn.net>"
 pkg.homepage: "https://github.com/caspermeijn/mynewt-pinetime-bsp"
 pkg.keywords:
-    - nrf52
-    - Pine64
-    - PineTime
-
-pkg.cflags:
-    - '-DNRF52'
-    # TODO: Move to more specific variable, however this currently causes a build failure '-DNRF52832_XXAA'
 
 pkg.deps:
-    - '@apache-mynewt-core/hw/mcu/nordic/nrf52xxx'
-    - '@apache-mynewt-core/kernel/os'
-    - '@apache-mynewt-core/libc/baselibc'
-    - '@apache-mynewt-core/hw/util/button'
-    - '@apache-mynewt-core/hw/drivers/debounce'
-    - "hw/drivers/chg_ctrl/sgm4056"
+    - "@apache-mynewt-core/kernel/os"
+    - "@apache-mynewt-core/hw/hal"
+    - "@apache-mynewt-core/sys/console/stub"
+    - "@apache-mynewt-core/sys/log/stub"
+    - "libs/semihosting_console"
+    - "hw/drivers/battery_pinetime"
+    # - "@apache-mynewt-core/hw/drivers/debounce"
+    - "@apache-mynewt-core/hw/util/button"

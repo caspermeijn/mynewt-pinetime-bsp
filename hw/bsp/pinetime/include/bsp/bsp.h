@@ -77,6 +77,15 @@ extern uint8_t _ram_start;
 #define HEARTRATE_CLOCK_PIN      7 //P0.07 BMA421-SCL, HRS3300-SCL, TP-SCL  OUT
 #define HEARTRATE_INT_PIN       30 //P0.30 HRS3300-TEST                     IN
 
+/**
+ * Callback for button actions. This is called by bsp when a butten action
+ * is executed by the user. This needs to be provided by the application
+ *
+ * @param button_flags flag indicating the action or state change
+ *                      (see BUTTON_FLG_* in button/button.h)
+ */
+extern void pinetime_button_action_callback(uint8_t button_flags);
+
 #ifdef __cplusplus
 }
 #endif

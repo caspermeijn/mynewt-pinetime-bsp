@@ -11,6 +11,8 @@
 #include "mcu/nrf52_hal.h"
 #include "mcu/nrf52_periph.h"
 #include "sgm4056/sgm4056.h"
+#include "debounce/debounce.h"
+#include "button/button.h"
 
 static struct sgm4056_dev os_bsp_charger;
 static struct sgm4056_dev_config os_bsp_charger_config = {
@@ -67,6 +69,38 @@ hal_bsp_get_nvic_priority(int irq_num, uint32_t pri)
     return pri;
 }
 
+void hal_bsp_button_callback(button_id_t id, uint8_t type, uint8_t flags) {
+    if (type == BUTTON_ACTION && id == 1) {
+        pinetime_button_action_callback(flags);
+    }
+}
+
+debounce_pin_t hal_bsp_debounce;
+button_t hal_bsp_button = {   
+    .id       = 1,
+    .mode     = BUTTON_MODE_TOUCH,
+};
+ 
+void hal_bsp_button_debounce_handler(debounce_pin_t *d) {
+    button_t *button = (button_t *) d->arg;
+    bool pressed = debounce_state(d);
+    button_set_low_level_state(button, pressed);
+}
+
+void hal_bsp_button_init(void)
+{
+    int rc;
+    rc = hal_gpio_init_out(PUSH_BUTTON_OUT_PIN, 1);
+    assert(rc == 0);
+
+    rc = debounce_init(&hal_bsp_debounce, PUSH_BUTTON_IN_PIN, HAL_GPIO_PULL_NONE, 0);
+    assert(rc == 0);
+    rc = debounce_start(&hal_bsp_debounce, DEBOUNCE_CALLBACK_EVENT_ANY, hal_bsp_button_debounce_handler, &hal_bsp_button);
+    assert(rc == 0);
+    
+    button_init(&hal_bsp_button, 1, hal_bsp_button_callback);
+}
+
 void
 hal_bsp_init(void)
 {
@@ -85,5 +119,8 @@ hal_bsp_init(void)
                        OS_DEV_INIT_KERNEL, OS_DEV_INIT_PRIO_DEFAULT,
                        sgm4056_dev_init, &os_bsp_charger_config);
     assert(rc == 0);
+
+    /* Create button */
+    hal_bsp_button_init();
 
 }

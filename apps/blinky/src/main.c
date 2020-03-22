@@ -58,6 +58,10 @@ char * get_charger_status_string(charge_control_status_t status) {
     }
 }
 
+void pinetime_button_action_callback(uint8_t flags) {
+    // NOP
+}
+
 /**
  * main
  *
@@ -84,6 +88,7 @@ main(int argc, char **argv)
     battery_pinetime_init();
 
     charger = (struct sgm4056_dev *) os_dev_open("charger", 0, 0);
+    assert(charger);
 
     while (1) {
         ++g_task1_loops;
