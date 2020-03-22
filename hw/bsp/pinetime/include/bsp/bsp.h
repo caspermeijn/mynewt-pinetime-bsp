@@ -30,8 +30,8 @@ extern uint8_t _ram_start;
 #define RAM_SIZE        0x10000
 
 // Battery charger SMG40561
-#define BATTERY_CHARGER_PIN     19 //P0.19 POWER PRESENCE INDICATION IN
-#define BATTERY_CHARGING_PIN    12 //P0.12 CHARGE INDICATION         IN
+#define CHARGER_POWER_PRESENCE_PIN  19 //P0.19 POWER PRESENCE INDICATION IN
+#define CHARGER_CHARGE_PIN      12 //P0.12 CHARGE INDICATION         IN
 #define BATTERY_VOLTAGE_PIN     31 //P0.31 BATTERYVOLTAGE (Analog)   IN
 
 // Periphiral power control

@@ -25,6 +25,7 @@
 #include "bsp/bsp.h"
 #include "hal/hal_gpio.h"
 #include "battery_pinetime/battery_pinetime.h"
+#include "sgm4056/sgm4056.h"
 #include "console/console.h"
 #ifdef ARCH_sim
 #include "mcu/mcu_sim.h"
@@ -34,6 +35,28 @@ static volatile int g_task1_loops;
 
 /* For LED toggling */
 int g_led_pin;
+
+struct sgm4056_dev *charger;
+
+char * get_charger_status_string(charge_control_status_t status) {
+    static char * no_source_string = "no source detected";
+    static char * charging_string = "charging";
+    static char * complete_string = "charge completed";
+    switch (status)
+    {   
+    case CHARGE_CONTROL_STATUS_NO_SOURCE:
+        return no_source_string;
+
+    case CHARGE_CONTROL_STATUS_CHARGING:
+        return charging_string;
+
+    case CHARGE_CONTROL_STATUS_CHARGE_COMPLETE:
+        return complete_string;
+
+    default:
+        return NULL;
+    }
+}
 
 /**
  * main
@@ -47,6 +70,7 @@ int
 main(int argc, char **argv)
 {
     int rc;
+    charge_control_status_t charger_status;
 
 #ifdef ARCH_sim
     mcu_sim_parse_args(argc, argv);
@@ -59,6 +83,8 @@ main(int argc, char **argv)
 
     battery_pinetime_init();
 
+    charger = (struct sgm4056_dev *) os_dev_open("charger", 0, 0);
+
     while (1) {
         ++g_task1_loops;
 
@@ -67,6 +93,13 @@ main(int argc, char **argv)
 
         /* Toggle the LED */
         hal_gpio_toggle(g_led_pin);
+
+        /* Display charger status */
+        rc = sgm4056_get_charger_status(charger, &charger_status);
+        assert(rc == 0);
+
+        console_printf("Charger state = %i = %s\n", 
+            charger_status, get_charger_status_string(charger_status));
         
         /* Display battery voltage */
         int voltage = battery_pinetime_get_voltage();
